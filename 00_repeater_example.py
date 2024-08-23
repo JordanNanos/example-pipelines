@@ -16,7 +16,7 @@ class Pipeline:
         pass
 
     
-    def pipe(self, user_message: str, messages: List[dict], body: dict) -> Union[str, Generator, Iterator]:
+    def pipe(self, user_message: str, model_id: str, messages: List[dict], body: dict) -> Union[str, Generator, Iterator]:
         # This function is called when a new user_message is receieved.
         
         print(f"received message from user: {user_message}") #user_message to pipeline logs
