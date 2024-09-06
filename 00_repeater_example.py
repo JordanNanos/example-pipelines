@@ -11,7 +11,7 @@ class Pipeline:
         pass
 
     async def on_shutdown(self):
-        # This function is called when the server is started.
+        # This function is called when the server is shutdown.
         print(f"on_shutdown:{__name__}")
         pass
 
@@ -19,6 +19,6 @@ class Pipeline:
     def pipe(self, user_message: str, model_id: str, messages: List[dict], body: dict) -> Union[str, Generator, Iterator]:
         # This function is called when a new user_message is receieved.
         
-        print(f"received message from user: {user_message}") #user_message to pipeline logs
-        return (f"received message from user: {user_message}") #user_message back to the UI
+        print(f"received message from user: {user_message}") #user_message to logs
+        return (f"received message from user: {user_message}") #user_message to the UI
         
