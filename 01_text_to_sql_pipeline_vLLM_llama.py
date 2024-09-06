@@ -4,6 +4,7 @@ import logging
 from typing import List, Union, Generator, Iterator
 import os
 from pydantic import BaseModel
+
 #from llama_index.llms.ollama import Ollama
 from llama_index.llms.openai_like import OpenAILike
 from llama_index.core.query_engine import NLSQLTableQueryEngine
@@ -16,13 +17,10 @@ import asyncio
 # pip install -U --force-reinstall nltk==3.8.1
 # pip install llama-index-llms-openai-like==0.1.3
 
-# good one to list column names in the DB: 
+# good SQL query to list all column names in a table: 
 # SELECT json_object_keys(to_json(json_populate_record(NULL::public.movies, '{}'::JSON)))
-# response for movies: [('Release Year',), ('title',), ('Origin/Ethnicity',), ('director',), ('Cast',), ('genre',), ('Wiki Page',), ('plot',)]
+# response for the movies db: [('Release Year',), ('title',), ('Origin/Ethnicity',), ('director',), ('Cast',), ('genre',), ('Wiki Page',), ('plot',)]
 
-
-#import openai
-#openai.api_key = 'abc-123'
 
 
 logging.basicConfig(level=logging.DEBUG)
