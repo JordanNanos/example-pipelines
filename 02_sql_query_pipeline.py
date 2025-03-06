@@ -108,17 +108,23 @@ class Pipeline:
                 
             cursor.execute(sql)
             result = cursor.fetchall()
+
+            conn.close()
             return str(result)
             
         except aiohttp.ClientResponseError as e:
             logging.error(f"ClientResponseError: {e}")
+            conn.close()
             return f"ClientResponseError: {e}"
         except aiohttp.ClientPayloadError as e:
             logging.error(f"ClientPayloadError: {e}")
+            conn.close()
             return f"ClientPayloadError: {e}"
         except aiohttp.ClientConnectionError as e:
             logging.error(f"ClientConnectionError: {e}")
+            conn.close()
             return f"ClientConnectionError: {e}"
         except Exception as e:
             logging.error(f"Unexpected error: {e}")
+            conn.close()
             return f"Unexpected error: {e}"

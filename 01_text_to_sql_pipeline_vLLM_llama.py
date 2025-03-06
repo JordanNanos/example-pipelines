@@ -39,6 +39,7 @@ class Pipeline:
 
     def __init__(self):
         self.name = "01 Database RAG Pipeline vLLM llama"
+        self.cur = None
         self.conn = None
         self.nlsql_response = ""
 
@@ -97,6 +98,9 @@ class Pipeline:
         columns = self.cur.fetchall()
         print("Columns in the database:")
         print(f"{columns}")
+
+        self.cur.close()
+        self.conn.close()
         
 
     async def on_startup(self):
@@ -263,20 +267,26 @@ class Pipeline:
             if hasattr(response, 'response_gen'):
                 final_response = self.handle_streaming_response(response.response_gen)
                 result = f"Generated SQL Query:\n```sql\n{sql_query}\n```\nResponse:\n{final_response}"
+                self.engine.dispose()
                 return result
             else:
                 final_response = response.response
                 result = f"Generated SQL Query:\n```sql\n{sql_query}\n```\nResponse:\n{final_response}"
+                self.engine.dispose()
                 return result
         except aiohttp.ClientResponseError as e:
             logging.error(f"ClientResponseError: {e}")
+            self.engine.dispose()
             return f"ClientResponseError: {e}"
         except aiohttp.ClientPayloadError as e:
             logging.error(f"ClientPayloadError: {e}")
+            self.engine.dispose()
             return f"ClientPayloadError: {e}"
         except aiohttp.ClientConnectionError as e:
             logging.error(f"ClientConnectionError: {e}")
+            self.engine.dispose()
             return f"ClientConnectionError: {e}"
         except Exception as e:
             logging.error(f"Unexpected error: {e}")
+            self.engine.dispose()
             return f"Unexpected error: {e}"
